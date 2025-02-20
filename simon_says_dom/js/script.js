@@ -10,19 +10,25 @@ function numbersGenerator() {
     const numberList = [];
     let euqalNumbers = 0;
     for (let i = 0; i < 5; i++) {
-        let thisNumber = Math.floor(Math.random() * 50);
-        numberList[i] = thisNumber;
+        let thisNumber;
+        let uniqueFlag = true;
 
         // previene valori uguali nell'array generato
-        if (i > 0) {
+        do {
+            thisNumber = Math.floor(Math.random() * 50);
+
             for (let j = 0; j < numberList.length; j++) {
-                if (numberList[i] == numberList[j - 1]) {
+                if (numberList[j] == thisNumber) {
                     euqalNumbers++;
-                    thisNumber = Math.floor(Math.random() * 50);
-                    numberList[i] = thisNumber;
+                    uniqueFlag = false;
+                    break;
+                } else {
+                    uniqueFlag = true;
                 }
             }
-        }
+        } while (uniqueFlag == false);
+        
+        numberList[i] = thisNumber;
     }
     console.log(euqalNumbers);
 
