@@ -2,6 +2,7 @@
 // recupero elementi da html
 // lista per generare items
 const numbersListEl = document.getElementById('numbers-list');
+const answerFormEl = document.getElementById('answers-form');
 
 // generare numeri
 numbersListEl.innerHTML = 'ciao;'
@@ -16,6 +17,12 @@ function numbersGenerator() {
 }
 
 numbersListEl.innerHTML = numbersGenerator();
+
+// tenere i numeri a schermo per 30 secondi
+setTimeout(() => {
+    numbersListEl.classList.add('d-none');
+    answerFormEl.classList.remove('d-none');
+}, 3000);
         
         
 
