@@ -14,14 +14,18 @@ function numbersGenerator() {
         numberList[i] = thisNumber;
 
         // previene valori uguali nell'array generato
-        if (i > 0 && numberList[i] == numberList){
-            euqalNumbers++;
-            thisNumber = Math.floor(Math.random() * 50);
-            numberList[i] = thisNumber;
+        if (i > 0) {
+            for (let j = 0; j < numberList.length; j++) {
+                if (numberList[i] == numberList[j - 1]) {
+                    euqalNumbers++;
+                    thisNumber = Math.floor(Math.random() * 50);
+                    numberList[i] = thisNumber;
+                }
+            }
         }
     }
     console.log(euqalNumbers);
-    
+
     return numberList;
 }
 
@@ -38,13 +42,13 @@ function getUserNumbers(arr) {
 }
 
 // funzione per confrontare gli array e calcolare il risultato
-function getResults (userArr, initialArr) {
+function getResults(userArr, initialArr) {
     let rightCounter = 0
-    for(let i = 0; i < userArr.length; i++){
+    for (let i = 0; i < userArr.length; i++) {
         let userNumber = userArr[i];
-        for(let j = 0; j < initialArr.length; j++){
+        for (let j = 0; j < initialArr.length; j++) {
             let initialNumber = initialArr[j];
-            if(userNumber == initialNumber){
+            if (userNumber == initialNumber) {
                 rightCounter++;
             }
         }
