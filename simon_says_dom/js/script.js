@@ -3,10 +3,10 @@
 // lista per generare items
 const numbersListEl = document.getElementById('numbers-list');
 const answerFormEl = document.getElementById('answers-form');
+const userInput = document.querySelectorAll('.form-control');
+const buttonEl = document.querySelector('.btn');
 
 // generare numeri
-numbersListEl.innerHTML = 'ciao;'
-
 function numbersGenerator() {
     const numbersList = [];
     for(let i = 0; i < 5; i++){
@@ -24,10 +24,12 @@ setTimeout(() => {
     answerFormEl.classList.remove('d-none');
 }, 3000);
         
-        
-
 
 // gestine inserimento utente e salvtaggio in array
+userInput.addEventListener('input', function () {
+    console.log(userInput.value);
+});
+
 
 
 // confronto tra array e stampa risultato
