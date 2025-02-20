@@ -1,35 +1,77 @@
-// gestione generazione numeri, tenerli a schermo per 30 secondi e salvataggio in un array
 // recupero elementi da html
-// lista per generare items
+const formEl = document.getElementById('answers-form')
 const numbersListEl = document.getElementById('numbers-list');
 const answerFormEl = document.getElementById('answers-form');
 const userInput = document.querySelectorAll('.form-control');
 const buttonEl = document.querySelector('.btn');
 
-// generare numeri
+// funzione per generare numeri
 function numbersGenerator() {
-    const numbersList = [];
-    for(let i = 0; i < 5; i++){
+    const numberList = [];
+    let euqalNumbers = 0;
+    for (let i = 0; i < 5; i++) {
         let thisNumber = Math.floor(Math.random() * 50);
-        numbersList[i] = thisNumber;
+        numberList[i] = thisNumber;
+
+        // previene valori uguali nell'array generato
+        if (i > 0 && numberList[i] == numberList){
+            euqalNumbers++;
+            thisNumber = Math.floor(Math.random() * 50);
+            numberList[i] = thisNumber;
+        }
     }
-    return numbersList;
+    console.log(euqalNumbers);
+    
+    return numberList;
 }
 
-numbersListEl.innerHTML = numbersGenerator();
+
+
+// funzione per prendere i valori inseriti dall'utente e crearne un array;
+function getUserNumbers(arr) {
+    const userNumberList = [];
+    for (let i = 0; i < userInput.length; i++) {
+        const thisNumber = arr[i].value;
+        userNumberList[i] = Number(thisNumber);
+    }
+    return userNumberList;
+}
+
+// funzione per confrontare gli array e calcolare il risultato
+function getResults (userArr, initialArr) {
+    let rightCounter = 0
+    for(let i = 0; i < userArr.length; i++){
+        let userNumber = userArr[i];
+        for(let j = 0; j < initialArr.length; j++){
+            let initialNumber = initialArr[j];
+            if(userNumber == initialNumber){
+                rightCounter++;
+            }
+        }
+    }
+    return rightCounter;
+}
+
+// salvare i numeri generati in un array fisso e inserirli in pagina
+const generatedNumbers = numbersGenerator();
+numbersListEl.innerHTML = generatedNumbers;
+console.log(generatedNumbers);
 
 // tenere i numeri a schermo per 30 secondi
 setTimeout(() => {
     numbersListEl.classList.add('d-none');
     answerFormEl.classList.remove('d-none');
 }, 3000);
-        
 
-// gestine inserimento utente e salvtaggio in array
-userInput.addEventListener('input', function () {
-    console.log(userInput.value);
+// trigger creazione array utente su submit
+formEl.addEventListener('submit', function (e) {
+    e.preventDefault();
+    console.log(getUserNumbers(userInput));
+
+    // confronto tra array e stampa risultato
+    console.log(getResults(getUserNumbers(userInput), generatedNumbers));
 });
 
 
 
-// confronto tra array e stampa risultato
+
