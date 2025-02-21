@@ -20,6 +20,20 @@
     <!-- Countdown -->
     <div id="countdown" class="fs-1 fw-bolder"></div>
     <p id="instructions">Memorizza i numeri entro il tempo limite!</p>
+    <form class="start_form" action="">
+      <div class="mb-3 select">
+        <label for="time" class="form-label">Tempo</label>
+        <select class="form-select form-select-lg" name="time" id="time" required>
+          <option value="">seleziona il tempo a disposizione per memorizzare i numeri</option>
+          <option value="5">5 secondi</option>
+          <option value="15">15 secondi</option>
+          <option value="30">30 secondi</option>
+        </select>
+        <button type="submit" class="btn btn-primary start_game">premi per giocare</button>
+      </div>
+    </form>
+
+
 
     <!-- Numbers -->
     <ul id="numbers-list" class="d-flex gap-5 list-unstyled">
