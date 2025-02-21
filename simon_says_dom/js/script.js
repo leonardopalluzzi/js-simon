@@ -1,4 +1,4 @@
-// recupero elementi da html
+// data recover from HTML
 const formEl = document.getElementById('answers-form')
 const numbersListEl = document.getElementById('numbers-list');
 const answerFormEl = document.getElementById('answers-form');
@@ -13,16 +13,26 @@ const timeSelector = document.querySelector('.select');
 const progressBarEl = document.querySelector('.progress-bar');
 const porogressContainer = document.querySelector('.progress_bar_container');
 
-console.log(timeValue.hasAttribute('required'));
 
-// funzione di assegnazione tempo
+
+/**
+ * time assignement function
+ * @param {object} timeChoice 
+ * @returns {number} time for interval and timeout set
+ */
 function time(timeChoice) {
     const currentTime = Number(timeChoice.value * 1000);
-    console.log(currentTime);
+    //console.log(currentTime); // log for develop check
 
     return currentTime;
 }
 
+
+/**
+ * time select required attribute check funciton
+ * @param {object} timeSelect 
+ * @returns  {boolean} check if the required attribute has been canceled from html
+ */
 function timeSelectCheck(timeSelect) {
     let flag = true;
     if (!timeSelect.hasAttribute('required')) {
@@ -31,37 +41,48 @@ function timeSelectCheck(timeSelect) {
     return flag;
 }
 
-// funzione per generare numeri
+
+/**
+ * numbers generator function
+ * @returns {array} list of random generated unequal numbers
+ */
 function numbersGenerator() {
     const numberList = [];
-    let euqalNumbers = 0;
+
     for (let i = 0; i < 5; i++) {
         let thisNumber;
         let uniqueFlag = true;
 
-        // previene valori uguali nell'array generato
+        // check for double values in the array
         do {
             thisNumber = Math.floor(Math.random() * 50);
 
             for (let j = 0; j < numberList.length; j++) {
                 if (numberList[j] == thisNumber) {
-                    euqalNumbers++;
                     uniqueFlag = false;
                     break;
                 } else {
                     uniqueFlag = true;
                 }
             }
-        } while (uniqueFlag == false);
 
-        numberList[i] = thisNumber;
+        // repeat as long as uniqueFlag = false
+        } while (uniqueFlag == false); 
+
+        // push number in the array if there are no doubles
+        numberList[i] = thisNumber; 
     }
-    console.log(euqalNumbers);
+    //console.log(euqalNumbers); // log for develop check
 
     return numberList;
 }
 
-// funzione per prendere i valori inseriti dall'utente e crearne un array;
+
+/**
+ * create array function from user inputs
+ * @param {NodeList} arr 
+ * @returns {array} returns an array with the user values starting from the input nodelist
+ */
 function getUserNumbers(arr) {
     const userNumberList = [];
     for (let i = 0; i < userInput.length; i++) {
@@ -71,22 +92,32 @@ function getUserNumbers(arr) {
     return userNumberList;
 }
 
+
+
+/**
+ * input check function and form hacking check
+ * @param {array} userNumbers 
+ * @param {NodeList} userArray 
+ * @returns {number} return a code from 0 to 3 based on the error capted by the function
+ */
 function inputCheck(userNumbers, userArray) {
-    let message = '';
     let errorFlag = 0;
     for (let i = 0; i < userNumbers.length; i++) {
         let inputElement = userArray[i];
         let currentNumber = userNumbers[i];
-        // controlla che non ci siano due valori uguali
+
+        // double value check
         for (let j = i + 1; j < userNumbers.length; j++) {
             if (currentNumber == userNumbers[j]) {
                 errorFlag = 3;
             }
         }
-        // controlla che venga inserito un numero e non altro input
+
+        // type value check
         if (isNaN(currentNumber)) {
             errorFlag = 1;
-            // controlla che il form non venga hackerato per il required
+
+        // required attribute on form check
         } else if (!inputElement.hasAttribute('required')) {
             errorFlag = 2;
         }
@@ -94,7 +125,13 @@ function inputCheck(userNumbers, userArray) {
     return errorFlag;
 }
 
-// funzione per confrontare gli array e calcolare il risultato
+
+/**
+ * array confront and result calc
+ * @param {array} userArr 
+ * @param {object} initialArr 
+ * @returns {number} returns the value of right guesses made by the user after array confront
+ */
 function getResults(userArr, initialArr) {
     let rightCounter = 0
     for (let i = 0; i < userArr.length; i++) {
@@ -110,13 +147,16 @@ function getResults(userArr, initialArr) {
 }
 
 
+//FUNCTION RECALL
+
+// hide main text
 mainText.classList.add('d-none')
 
 // start button
 startForm.addEventListener('submit', function (e) {
     e.preventDefault();
     
-    // hacking check on select
+    // hacking check on time select
     if (timeSelectCheck(timeValue) == false) {
         alert('per favore non hackerare il form');
         location.reload();
@@ -143,12 +183,13 @@ startForm.addEventListener('submit', function (e) {
     timeSelector.classList.add('d-none');
     mainText.classList.remove('d-none');
 
-    // salvare i numeri generati in un array fisso e inserirli in pagina
+    // push generated number into an array and show them in page
     const generatedNumbers = numbersGenerator();
+    
     numbersListEl.innerHTML = generatedNumbers;
-    console.log(generatedNumbers);
+    //console.log(generatedNumbers); // log for develop check
 
-    // tenere i numeri a schermo per 30 secondi
+    // keep number on screen for selected amount of time
     setTimeout(() => {
         numbersListEl.classList.add('d-none');
         answerFormEl.classList.remove('d-none');
@@ -160,13 +201,14 @@ startForm.addEventListener('submit', function (e) {
 })
 
 
-// trigger creazione array utente su submit
+// array creation triger on submit input (funciton recall)
 formEl.addEventListener('submit', function handler(e) {
     e.preventDefault();
-    console.log(getUserNumbers(userInput));
+    //console.log(getUserNumbers(userInput)); // log for develop check
 
-    // confronto tra array e stampa risultato
-    console.log(getResults(getUserNumbers(userInput), generatedNumbers));
+    // array confront function recall, input check function recall and result print
+
+    //console.log(getResults(getUserNumbers(userInput), generatedNumbers)); // log for develop check
     if (inputCheck(getUserNumbers(userInput), userInput) == 1) {
         alert('per favore, non mi hackerare il form ed inserisci solo numeri');
         location.reload();
@@ -180,7 +222,8 @@ formEl.addEventListener('submit', function handler(e) {
         location.reload();
         location.reload();
     }
-    console.log(inputCheck(getUserNumbers(userInput), userInput));
+
+    //console.log(inputCheck(getUserNumbers(userInput), userInput)); // log for develop check
     mainText.innerHTML = `hai indovinato ${getResults(getUserNumbers(userInput), generatedNumbers)} numeri`
     buttonEl.innerHTML = 'Gioca di nuovo';
     inputBox.classList.add('d-none');
