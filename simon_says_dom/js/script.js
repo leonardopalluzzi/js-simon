@@ -178,7 +178,7 @@ startForm.addEventListener('submit', function (e) {
             progressBarEl.style.width = `${barWidth}%`;
         }
 
-    }, (time(timeValue) / 115));
+    }, (time(timeValue) / 104));
 
     // page layout adjust
     startBtn.classList.add('d-none');
