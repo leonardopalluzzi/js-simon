@@ -37,8 +37,6 @@ function numbersGenerator() {
     return numberList;
 }
 
-
-
 // funzione per prendere i valori inseriti dall'utente e crearne un array;
 function getUserNumbers(arr) {
     const userNumberList = [];
@@ -47,6 +45,29 @@ function getUserNumbers(arr) {
         userNumberList[i] = Number(thisNumber);
     }
     return userNumberList;
+}
+
+function inputCheck (userNumbers, userArray){
+    let message = '';
+    let errorFlag = 0;
+    for (let i = 0; i < userNumbers.length; i++){
+        let inputElement = userArray[i];
+        let currentNumber = userNumbers[i];
+        // controlla che non ci siano due valori uguali
+        for(let j = i + 1; j < userNumbers.length; j++){
+            if(currentNumber == userNumbers[j]){
+                errorFlag = 3;
+            }
+        }
+        // controlla che venga inserito un numero e non altro input
+        if(isNaN(currentNumber)){
+            errorFlag = 1;
+        // controlla che il form non venga hackerato per il required
+        } else if (!inputElement.hasAttribute('required')){
+            errorFlag = 2;
+        }
+    }
+    return errorFlag;
 }
 
 // funzione per confrontare gli array e calcolare il risultato
@@ -84,14 +105,22 @@ formEl.addEventListener('submit', function handler (e) {
 
     // confronto tra array e stampa risultato
     console.log(getResults(getUserNumbers(userInput), generatedNumbers));
-
+    if(inputCheck(getUserNumbers(userInput), userInput) == 1){
+        alert('per favore, non mi hackerare il form ed inserisci solo numeri');
+        location.reload();
+        location.reload();
+    } else if(inputCheck(getUserNumbers(userInput), userInput) == 2){
+        alert('per favore non mi hackerare il form');
+        location.reload();
+        location.reload();
+    } else if(inputCheck(getUserNumbers(userInput), userInput) == 3){
+        alert('non inserire due valori uguali');
+        location.reload();
+        location.reload();
+    }
+    console.log(inputCheck(getUserNumbers(userInput), userInput));
     mainText.innerHTML = `hai indovinato ${getResults(getUserNumbers(userInput), generatedNumbers)} numeri`
     buttonEl.innerHTML = 'Gioca di nuovo';
     inputBox.classList.add('d-none');
     formEl.removeEventListener('submit', handler);
 });
-
-
-
-
-
