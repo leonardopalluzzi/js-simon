@@ -151,6 +151,8 @@ function getResults(userArr, initialArr) {
 
 // hide main text
 mainText.classList.add('d-none')
+// push generated number into an array and show them in page
+const generatedNumbers = numbersGenerator();
 
 // start button
 startForm.addEventListener('submit', function (e) {
@@ -182,9 +184,6 @@ startForm.addEventListener('submit', function (e) {
     startBtn.classList.add('d-none');
     timeSelector.classList.add('d-none');
     mainText.classList.remove('d-none');
-
-    // push generated number into an array and show them in page
-    const generatedNumbers = numbersGenerator();
     
     numbersListEl.innerHTML = generatedNumbers;
     //console.log(generatedNumbers); // log for develop check
@@ -224,6 +223,8 @@ formEl.addEventListener('submit', function handler(e) {
     }
 
     //console.log(inputCheck(getUserNumbers(userInput), userInput)); // log for develop check
+    console.log(generatedNumbers);
+    
     mainText.innerHTML = `hai indovinato ${getResults(getUserNumbers(userInput), generatedNumbers)} numeri`
     buttonEl.innerHTML = 'Gioca di nuovo';
     inputBox.classList.add('d-none');
