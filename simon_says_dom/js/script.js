@@ -13,13 +13,22 @@ const timeSelector = document.querySelector('.select');
 const progressBarEl = document.querySelector('.progress-bar');
 const porogressContainer = document.querySelector('.progress_bar_container');
 
+console.log(timeValue.hasAttribute('required'));
 
 // funzione di assegnazione tempo
 function time(timeChoice) {
     const currentTime = Number(timeChoice.value * 1000);
     console.log(currentTime);
-    
+
     return currentTime;
+}
+
+function timeSelectCheck(timeSelect) {
+    let flag = true;
+    if (!timeSelect.hasAttribute('required')) {
+        flag = false
+    }
+    return flag;
 }
 
 // funzione per generare numeri
@@ -106,20 +115,27 @@ mainText.classList.add('d-none')
 // start button
 startForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    
+    // hacking check on select
+    if (timeSelectCheck(timeValue) == false) {
+        alert('per favore non hackerare il form');
+        location.reload();
+        location.reload();
+    }
     let barWidth = 100;
     let timer;
-    
+
     // time bar
     porogressContainer.classList.remove('d-none');
     timer = setInterval(() => {
-        if(barWidth == 0){
+        if (barWidth == 0) {
             progressBarEl.classList.add('bg-danger');
             clearInterval(timer);
-        } else { 
+        } else {
             barWidth--;
             progressBarEl.style.width = `${barWidth}%`;
         }
-        
+
     }, (time(timeValue) / 115));
 
     // page layout adjust
@@ -131,14 +147,14 @@ startForm.addEventListener('submit', function (e) {
     const generatedNumbers = numbersGenerator();
     numbersListEl.innerHTML = generatedNumbers;
     console.log(generatedNumbers);
-    
+
     // tenere i numeri a schermo per 30 secondi
     setTimeout(() => {
         numbersListEl.classList.add('d-none');
         answerFormEl.classList.remove('d-none');
         mainText.innerHTML = 'inserici i numeri che hai visto poco fa';
         porogressContainer.classList.add('d-none');
-        
+
 
     }, time(timeValue));
 })
