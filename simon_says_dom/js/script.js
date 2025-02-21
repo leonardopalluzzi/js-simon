@@ -4,6 +4,8 @@ const numbersListEl = document.getElementById('numbers-list');
 const answerFormEl = document.getElementById('answers-form');
 const userInput = document.querySelectorAll('.form-control');
 const buttonEl = document.querySelector('.btn');
+const mainText = document.getElementById('instructions');
+const inputBox = document.getElementById('input-group');
 
 // funzione per generare numeri
 function numbersGenerator() {
@@ -27,7 +29,7 @@ function numbersGenerator() {
                 }
             }
         } while (uniqueFlag == false);
-        
+
         numberList[i] = thisNumber;
     }
     console.log(euqalNumbers);
@@ -71,16 +73,24 @@ console.log(generatedNumbers);
 setTimeout(() => {
     numbersListEl.classList.add('d-none');
     answerFormEl.classList.remove('d-none');
+    mainText.innerHTML = 'inserici i numeri che hai visto poco fa';
+
 }, 3000);
 
 // trigger creazione array utente su submit
-formEl.addEventListener('submit', function (e) {
+formEl.addEventListener('submit', function handler (e) {
     e.preventDefault();
     console.log(getUserNumbers(userInput));
 
     // confronto tra array e stampa risultato
     console.log(getResults(getUserNumbers(userInput), generatedNumbers));
+
+    mainText.innerHTML = `hai indovinato ${getResults(getUserNumbers(userInput), generatedNumbers)} numeri`
+    buttonEl.innerHTML = 'Gioca di nuovo';
+    inputBox.classList.add('d-none');
+    formEl.removeEventListener('submit', handler);
 });
+
 
 
 
